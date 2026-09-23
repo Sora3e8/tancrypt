@@ -2,6 +2,7 @@
 #define DUTILS_HPP
 
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include <initializer_list>
 #include <iomanip>
@@ -18,6 +19,13 @@ namespace dutils
       ~dbuffer() { delete[] _data; };
       size_t _size = 0;
       unsigned char* _data = nullptr;
+
+      dbuffer(const dbuffer& other) noexcept
+      {
+        this->_size = other.size();
+        _data = new unsigned char[other.size()];
+        memcpy(this->_data, other._data, other.size());
+      }
 
       dbuffer(dbuffer&& other) noexcept
       {
@@ -83,6 +91,11 @@ namespace dutils
         this->_size = string.size() + 1;
         this->_data = new unsigned char[_size];
         memcpy(this->_data, string.data(), _size);
+      }
+      void resize0(size_t size)
+      {
+        delete[] _data;
+        _data = new unsigned char[size];
       }
 
       void resize(size_t size)
@@ -169,5 +182,28 @@ namespace dutils
     return hex_str.str();
   }
 
+  static std::string hexStr(const char* data, size_t length)
+  {
+
+    std::stringstream hex_str;
+    for (size_t i = 0; i < length - 1; i++)
+    {
+      hex_str << std::hex << std::setw(2) << std::setfill('0') << *(uint8_t*)(data + i) << ((i < (length - 1)) ? ":" : "");
+    }
+
+    return hex_str.str();
+  }
+
+  static std::string hexStr(const unsigned char* data, size_t length)
+  {
+
+    std::stringstream hex_str;
+    for (size_t i = 0; i < length - 1; i++)
+    {
+      hex_str << std::hex << std::setw(2) << std::setfill('0') << *(uint8_t*)(data + i) << ((i < (length - 1)) ? ":" : "");
+    }
+
+    return hex_str.str();
+  }
 }
 #endif

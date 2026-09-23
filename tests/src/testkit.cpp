@@ -1,3 +1,5 @@
+#include "hashtypes.hpp"
+#include "keyc.hpp"
 #include "tancrypt/aes.hpp"
 #include "tancrypt/hash.hpp"
 #include "tancrypt/rsa.hpp"
@@ -7,6 +9,17 @@
 int pkicInit(char*[], int)
 {
   tancrypt::RSA::pkic key_factory;
+
+  return 0;
+}
+
+int aesRandomKey(char*[], int)
+{
+  using namespace tancrypt;
+  AES::keyc key = AES::keyc::randomKey(AES::RefKeylen(AES::Type::CBC256), AES::Type::CBC256);
+  key = AES::keyc::randomKey(8, AES::Type::CBC256, hashAlg::SHA256);
+  key.makeRandomKey(32);
+  key.makeRandomKey(64);
 
   return 0;
 }
@@ -378,6 +391,23 @@ int AesEncryptV2(char*[], int)
   return 0;
 }
 
+int AesEncryptwRandomKey(char*[], int)
+{
+
+  using namespace tancrypt;
+
+  dutils::dbuffer payload("Hewwo, I am secret >.<");
+
+  AES::keyc random_key = AES::keyc::randomKey(16, AES::Type::CBC256, hashAlg::SHA256);
+  dutils::dbuffer enc_buffer = AES::encrypt(random_key, payload);
+
+  std::cout << "Original: " << payload.toStr() << std::endl;
+  std::cout << "Original(hex): " << dutils::hexStr(payload) << std::endl;
+  std::cout << "Encrypted(hex): " << dutils::hexStr(enc_buffer) << std::endl;
+
+  return 0;
+}
+
 int AesDecryptV1(char*[], int)
 {
   dutils::dbuffer payload("Hewwo, I am secret >.<");
@@ -479,10 +509,12 @@ std::map<std::string, std::function<int(char* argv[], int argc)>> handler = {
   { "--verify", &verifyTest },
   { "--aesKeyInit1", &AESKEY_init1Test },
   { "--aesKeyInit2", &AESKEY_init2Test },
+  { "--aesRandomKey", &aesRandomKey },
   { "--aesEncryptV1", &AesEncryptV1 },
   { "--aesEncryptV2", &AesEncryptV2 },
   { "--aesDecryptV1", &AesDecryptV1 },
   { "--aesDecryptV2", &AesDecryptV2 },
+  { "--aesEncryptwRandomKey", &AesEncryptwRandomKey },
   { "--getNonce", &getNonce_test },
   { "--debugTest", &debugPass }
 };

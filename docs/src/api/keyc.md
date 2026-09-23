@@ -43,10 +43,31 @@ Allows for a manual initialization, when needed.
 Constructs instance of AES Key container without key hashing.  
 When constructing without tancrypt::hashAlg, you must ensure your key data are pre-padded.
 
-<h3><code> AES::keyc(const dutils::dbuffer& key,AES::Type type)</code></h3>
+<h3><code> AES::keyc(const dutils::dbuffer key,AES::Type type)</code></h3>
 
 * **Parameters:**
-    * `#!cpp const dutils::dbuffer& key` - Pre-padded key data
+    * `#!cpp const dutils::dbuffer key` - Pre-padded key data
+    * `#!cpp AES::Type type` - Type of AES algorithm to use
+
+
+<h3><code> AES::keyc(const char* key,AES::Type type)</code></h3>
+
+* **Parameters:**
+    * `#!cpp const char* key` - Pre-padded key data
+    * `#!cpp AES::Type type` - Type of AES algorithm to use
+
+<h3><code> AES::keyc(const unsigned char* key,AES::Type type)</code></h3>
+
+* **Parameters:**
+    * `#!cpp const unsigned char* key` - Pre-padded key data
+    * `#!cpp AES::Type type` - Type of AES algorithm to use
+
+
+<h3><code> AES::keyc::randomKey(size_t size,AES::Type type)</code></h3>
+- Creates a key container with a random key using OpenSSL's RAND_bytes
+
+* **Parameters:**
+    * `#!cpp size_t size` - Size of the key (bytes)
     * `#!cpp AES::Type type` - Type of AES algorithm to use
 
 <br/>
@@ -62,10 +83,38 @@ Constructs instance of AES Key container with key hashing.
 Key is automatically hashed on encryption using the given hash algorithm.
 
 
-<h3><code>AES::keyc(const dutils::dbuffer& key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+<h3><code>AES::keyc(const dutils::dbuffer key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
 
 * **Parameters:**
-    * `#!cpp dutils::dbuffer key` - Key data
+    * `#!cpp const dutils::dbuffer key` - Key data
+    * `#!cpp tancrypt::AES::Type type` - AES algorithm type
+    * `#!cpp tancrypt::hashAlg alg` - Hashing algorithm to use on key during encryption
+* **Returns:**
+    * `#!cpp tancrypt::AES::keyc key`
+
+<h3><code>AES::keyc(const char* key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+
+* **Parameters:**
+    * `#!cpp const char* key` - Key data
+    * `#!cpp tancrypt::AES::Type type` - AES algorithm type
+    * `#!cpp tancrypt::hashAlg alg` - Hashing algorithm to use on key during encryption
+* **Returns:**
+    * `#!cpp tancrypt::AES::keyc key`
+
+<h3><code>AES::keyc(const unsigned char* key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+
+* **Parameters:**
+    * `#!cpp const unsigned char* key` - Key data
+    * `#!cpp tancrypt::AES::Type type` - AES algorithm type
+    * `#!cpp tancrypt::hashAlg alg` - Hashing algorithm to use on key during encryption
+* **Returns:**
+    * `#!cpp tancrypt::AES::keyc key`
+
+<h3><code>AES::keyc::keyc(size_t size,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+- Creates a key container with a random key using OpenSSL's RAND_bytes
+
+* **Parameters:**
+    * `#!cpp size_t size` - Size of the key (bytes)
     * `#!cpp tancrypt::AES::Type type` - AES algorithm type
     * `#!cpp tancrypt::hashAlg alg` - Hashing algorithm to use on key during encryption
 * **Returns:**
@@ -114,13 +163,38 @@ Does not corrupt key and can be used even past first initialization.
 ### setKey
 Member method, sets key data of the AES Key container.
 
-<h3><code>AES::keyc::setKey(dutils::dbuffer key)</code></h3>
+<h3><code>AES::keyc::setKey(const dutils::dbuffer key)</code></h3>
 
 * **Parameters:**
-    * `#!cpp dutils::dbuffer key` - Key data buffer
+    * `#!cpp const dutils::dbuffer key` - Key data buffer
+
+<h3><code>AES::keyc::setKey(const char* key)</code></h3>
+
+* **Parameters:**
+    * `#!cpp const char* key` - Key data buffer
+
+
+<h3><code>AES::keyc::setKey(const unsigned char* key)</code></h3>
+
+* **Parameters:**
+    * `#!cpp const unsigned char* key` - Key data buffer
 
 </br>
 </br>
+</br>
+
+### makeRandomKey
+!!! Warning
+    This does not initialize the key metadata like AES algorithm etc...  
+    Only thing changed are allocated size and key content.
+
+Generates new random key in the current buffer
+
+<h3><code>makeRandomKey(size_t size)</code></h3>
+
+* **Parameters:**
+    * `size_t size` 
+
 </br>
 
 ### getHashAlg

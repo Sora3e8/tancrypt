@@ -647,6 +647,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#makerandomkey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        makeRandomKey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gethashalg" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1031,11 +1042,42 @@ If you do not want to handle your key padding, use hashing by constructing with 
 </div>
 <p>Constructs instance of AES Key container without key hashing.<br />
 When constructing without tancrypt::hashAlg, you must ensure your key data are pre-padded.</p>
-<h3><code> AES::keyc(const dutils::dbuffer& key,AES::Type type)</code></h3>
+<h3><code> AES::keyc(const dutils::dbuffer key,AES::Type type)</code></h3>
 
 <ul>
 <li><strong>Parameters:</strong><ul>
-<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="n">dutils</span><span class="o">::</span><span class="n">dbuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">key</span></code> - Pre-padded key data</li>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="n">dutils</span><span class="o">::</span><span class="n">dbuffer</span><span class="w"> </span><span class="n">key</span></code> - Pre-padded key data</li>
+<li><code class="language-cpp highlight"><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - Type of AES algorithm to use</li>
+</ul>
+</li>
+</ul>
+<h3><code> AES::keyc(const char* key,AES::Type type)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key</span></code> - Pre-padded key data</li>
+<li><code class="language-cpp highlight"><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - Type of AES algorithm to use</li>
+</ul>
+</li>
+</ul>
+<h3><code> AES::keyc(const unsigned char* key,AES::Type type)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key</span></code> - Pre-padded key data</li>
+<li><code class="language-cpp highlight"><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - Type of AES algorithm to use</li>
+</ul>
+</li>
+</ul>
+<h3><code> AES::keyc::randomKey(size_t size,AES::Type type)</code></h3>
+<ul>
+<li>
+<p>Creates a key container with a random key using OpenSSL's RAND_bytes</p>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code class="language-cpp highlight"><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span></code> - Size of the key (bytes)</li>
 <li><code class="language-cpp highlight"><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - Type of AES algorithm to use</li>
 </ul>
 </li>
@@ -1050,11 +1092,57 @@ the hashing occurs on encryption runtime this may cause this key constructor to 
 </div>
 <p>Constructs instance of AES Key container with key hashing.
 Key is automatically hashed on encryption using the given hash algorithm.</p>
-<h3><code>AES::keyc(const dutils::dbuffer& key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+<h3><code>AES::keyc(const dutils::dbuffer key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
 
 <ul>
 <li><strong>Parameters:</strong><ul>
-<li><code class="language-cpp highlight"><span class="n">dutils</span><span class="o">::</span><span class="n">dbuffer</span><span class="w"> </span><span class="n">key</span></code> - Key data</li>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="n">dutils</span><span class="o">::</span><span class="n">dbuffer</span><span class="w"> </span><span class="n">key</span></code> - Key data</li>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - AES algorithm type</li>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">hashAlg</span><span class="w"> </span><span class="n">alg</span></code> - Hashing algorithm to use on key during encryption</li>
+</ul>
+</li>
+<li><strong>Returns:</strong><ul>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">keyc</span><span class="w"> </span><span class="n">key</span></code></li>
+</ul>
+</li>
+</ul>
+<h3><code>AES::keyc(const char* key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key</span></code> - Key data</li>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - AES algorithm type</li>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">hashAlg</span><span class="w"> </span><span class="n">alg</span></code> - Hashing algorithm to use on key during encryption</li>
+</ul>
+</li>
+<li><strong>Returns:</strong><ul>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">keyc</span><span class="w"> </span><span class="n">key</span></code></li>
+</ul>
+</li>
+</ul>
+<h3><code>AES::keyc(const unsigned char* key,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key</span></code> - Key data</li>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - AES algorithm type</li>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">hashAlg</span><span class="w"> </span><span class="n">alg</span></code> - Hashing algorithm to use on key during encryption</li>
+</ul>
+</li>
+<li><strong>Returns:</strong><ul>
+<li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">keyc</span><span class="w"> </span><span class="n">key</span></code></li>
+</ul>
+</li>
+</ul>
+<h3><code>AES::keyc::keyc(size_t size,AES::Type type,tancrypt::hashAlg alg)</code></h3>
+<ul>
+<li>
+<p>Creates a key container with a random key using OpenSSL's RAND_bytes</p>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code class="language-cpp highlight"><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span></code> - Size of the key (bytes)</li>
 <li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">AES</span><span class="o">::</span><span class="n">Type</span><span class="w"> </span><span class="n">type</span></code> - AES algorithm type</li>
 <li><code class="language-cpp highlight"><span class="n">tancrypt</span><span class="o">::</span><span class="n">hashAlg</span><span class="w"> </span><span class="n">alg</span></code> - Hashing algorithm to use on key during encryption</li>
 </ul>
@@ -1150,17 +1238,49 @@ Does not corrupt key and can be used even past first initialization.</p>
 <p></br></p>
 <h3 id="setkey">setKey</h3>
 <p>Member method, sets key data of the AES Key container.</p>
-<h3><code>AES::keyc::setKey(dutils::dbuffer key)</code></h3>
+<h3><code>AES::keyc::setKey(const dutils::dbuffer key)</code></h3>
 
 <ul>
 <li><strong>Parameters:</strong><ul>
-<li><code class="language-cpp highlight"><span class="n">dutils</span><span class="o">::</span><span class="n">dbuffer</span><span class="w"> </span><span class="n">key</span></code> - Key data buffer</li>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="n">dutils</span><span class="o">::</span><span class="n">dbuffer</span><span class="w"> </span><span class="n">key</span></code> - Key data buffer</li>
+</ul>
+</li>
+</ul>
+<h3><code>AES::keyc::setKey(const char* key)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key</span></code> - Key data buffer</li>
+</ul>
+</li>
+</ul>
+<h3><code>AES::keyc::setKey(const unsigned char* key)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code class="language-cpp highlight"><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">key</span></code> - Key data buffer</li>
 </ul>
 </li>
 </ul>
 <p></br>
 </br>
 </br></p>
+<h3 id="makerandomkey">makeRandomKey</h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This does not initialize the key metadata like AES algorithm etc...<br />
+Only thing changed are allocated size and key content.</p>
+</div>
+<p>Generates new random key in the current buffer</p>
+<h3><code>makeRandomKey(size_t size)</code></h3>
+
+<ul>
+<li><strong>Parameters:</strong><ul>
+<li><code>size_t size</code> </li>
+</ul>
+</li>
+</ul>
+<p></br></p>
 <h3 id="gethashalg">getHashAlg</h3>
 <p>Retrieves currently set hashing algorithm of the AES Key Container</p>
 <h3><code>AES::keyc::getHashAlg()</code></h3>
