@@ -19,7 +19,29 @@ namespace tancrypt
 
     pkic::~pkic()
     {
-      if (key_container != nullptr) EVP_PKEY_free(key_container);
+      if (key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        key_container = nullptr;
+      }
+    }
+
+    pkic::pkic(pkic&& other) noexcept
+    {
+      if (this->key_container != nullptr) EVP_PKEY_free(key_container);
+      this->key_container = other.key_container;
+      other.key_container = nullptr;
+    }
+
+    pkic& pkic::operator=(pkic&& other) noexcept
+    {
+      if (this != &other)
+      {
+        if (this->key_container != nullptr) EVP_PKEY_free(key_container);
+        this->key_container = other.key_container;
+        other.key_container = nullptr;
+      }
+      return *this;
     }
 
     bool pkic::isInitialized()

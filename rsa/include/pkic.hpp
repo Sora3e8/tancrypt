@@ -16,6 +16,9 @@ namespace tancrypt
         pkic();
         ~pkic();
 
+        pkic(pkic&& other) noexcept;
+        pkic& operator=(pkic&& other) noexcept;
+
         // PKIC pair generators
         void generate_keypair(size_t length);
 
