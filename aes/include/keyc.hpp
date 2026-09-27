@@ -43,6 +43,7 @@ namespace tancrypt
       public:
         keyc();
         ~keyc();
+
         keyc(const dutils::dbuffer key, AES::Type type);
         keyc(const char* key, size_t size, AES::Type type);
         keyc(const unsigned char* key, size_t size, AES::Type type);
@@ -63,11 +64,11 @@ namespace tancrypt
         void setKey(const unsigned char* key, size_t size);
         const dutils::dbuffer& getKey();
         evp_cipher_st* cipher = nullptr;
+        dutils::dbuffer _key;
 
       private:
         hashAlg _alg = hashAlg::SHA256;
         bool do_hash = false;
-        dutils::dbuffer _key;
     };
   } // namespace AES
 } // namespace tancrypt
