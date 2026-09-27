@@ -96,6 +96,7 @@ namespace dutils
       {
         delete[] _data;
         _data = new unsigned char[size];
+        this->_size = size;
       }
 
       void resize(size_t size)
