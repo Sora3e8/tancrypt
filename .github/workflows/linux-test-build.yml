@@ -19,8 +19,8 @@ jobs:
           ref: ${{ github.ref_name }}
       - name: Build
         run: |
-          apt-get update
-          apt-get install -y build-essential cmake openssl libssl-dev
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake openssl libssl-dev
           cd build
           cmake -DCMAKE_BUILD_TYPE=Debug -DDO_TEST=ON .. && cmake --build .
 
