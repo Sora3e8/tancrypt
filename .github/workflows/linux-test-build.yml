@@ -1,0 +1,26 @@
+name: Linux test build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug]
+        c_compiler: [gcc,clang]
+        cpp_compiler: [gcc,clang]
+    steps:
+      - name: Clone branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Build
+        run: |
+          apt-get update
+          apt-get install -y build-essential cmake openssl libssl-dev
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DDO_TEST=ON .. && cmake --build .
+

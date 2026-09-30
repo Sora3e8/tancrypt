@@ -35,7 +35,9 @@ jobs:
             c_compiler: cl
     steps:
       - name: Project setup
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: Install deps windows
         if: ${{matrix.os == 'windows-latest'}}
