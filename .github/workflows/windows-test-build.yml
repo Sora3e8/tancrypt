@@ -18,7 +18,7 @@ jobs:
           ref: ${{ github.ref_name }}
       - name: Install dependencies
         run: |
-          vcpkg install
+          choco install openssl
       - name: Build
         run: |
           cd build
