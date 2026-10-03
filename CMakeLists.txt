@@ -27,6 +27,10 @@ if(NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "(arm|aarch64)")
     $<$<CONFIG:Debug>: -Wall -Wextra -Wpedantic -fsanitize=address -fno-omit-frame-pointer>
     $<$<CONFIG:Release>: -O3>
     )
+    target_link_options(${PROJECT_NAME}
+    INTERFACE
+    $<$<CONFIG:Debug>:-fsanitize=address>
+    )
   endif()
 endif()
 
