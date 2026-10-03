@@ -12,17 +12,12 @@ file(GLOB_RECURSE SRC_FILES src/*.cc src/*.cpp)
 add_library(${PROJECT_NAME} INTERFACE)
 
 if(NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "(arm|aarch64)")
-  if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    message("!!! Asan linked !!!")
-    add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
-    add_link_options(-fsanitize=address)
-  endif()
 
   if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(${PROJECT_NAME}
     INTERFACE
-    $<$<CONFIG:Debug>: -Wall -fsanitize=address -fno-omit-frame-pointer>
-    $<$<CONFIG:Release>: -O3>
+    $<$<CONFIG:Debug>: -Wall -fsanitize=address>
+    $<$<CONFIG:Release>: -O2>
     )
   else()
     target_compile_options(${PROJECT_NAME}

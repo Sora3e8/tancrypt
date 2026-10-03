@@ -3,16 +3,21 @@ project(testkit VERSION 1.0.0 LANGUAGES CXX)
 file(GLOB_RECURSE SRC_FILES src/*.cc src/*.cpp)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-# Basic memory bug
 if(NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "(arm|aarch64)")
-  target_compile_options(${PROJECT_NAME} 
-    PRIVATE
-    $<$<CONFIG:Debug>: -fsanitize=address -fno-omit-frame-pointer>
-  )
-  target_link_options(${PROJECT_NAME}
-    PRIVATE
-    $<$<CONFIG:Debug>: -fsanitize=address>
-  )
+
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(${PROJECT_NAME}
+    INTERFACE
+    $<$<CONFIG:Debug>: -Wall -fsanitize=address>
+    $<$<CONFIG:Release>: -O2>
+    )
+  else()
+    target_compile_options(${PROJECT_NAME}
+    INTERFACE
+    $<$<CONFIG:Debug>: -Wall -Wextra -Wpedantic -fsanitize=address -fno-omit-frame-pointer>
+    $<$<CONFIG:Release>: -O3>
+    )
+  endif()
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE tancrypt)
@@ -54,6 +59,7 @@ add_test(NAME "AES decrypt v2" COMMAND ${PROJECT_NAME} --aesDecryptV2)
 add_test(NAME "AES get nonce" COMMAND ${PROJECT_NAME} --getNonce)
 
 if(DO_TEST)
-  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_CTEST_COMMAND} -C Debug --output-on-failure)
+  message("Build type: ${CMAKE_BUILD_TYPE}")
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_CTEST_COMMAND} -C ${CMAKE_BUILD_TYPE} --output-on-failure)
 endif()
 
