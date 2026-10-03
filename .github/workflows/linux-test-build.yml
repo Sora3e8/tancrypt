@@ -3,13 +3,15 @@ name: Linux test build
 on:
   workflow_dispatch:
 
+env:
+  BUILD_TYPE: Debug
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Debug]
         c_compiler: [gcc,clang]
         cpp_compiler: [gcc,clang]
     steps:
@@ -19,10 +21,10 @@ jobs:
           ref: ${{ github.ref_name }}
       - name: Dependencies setup
         run: |
-          apt-get update && apt-get install -y sudo
-          apt-get install && apt-get install -y build-essential cmake git openssl libssl-dev
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake openssl libssl-dev
       - name: Build
         run: |
           cd build
-          /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DDO_TEST=ON .. && /usr/bin/cmake --build .
+          /usr/bin/cmake -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DDO_TEST=ON .. && /usr/bin/cmake --build .
 
