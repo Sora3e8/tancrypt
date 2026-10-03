@@ -1,4 +1,4 @@
-name: "Test build"
+name: Test build
 
 on:
   workflow_dispatch:
@@ -7,8 +7,10 @@ jobs:
   linux-build:
     uses: ./.github/workflows/linux-test-build.yml
   windows-build:
+    needs: [linux-build]
     uses: ./.github/workflows/windows-test-build.yml
-  summary:
+  test-build:
     needs: [linux-build,windows-build]
     runs-on: ubuntu-latest
-    run: echo "Done"
+    steps:
+      - run: true
