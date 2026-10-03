@@ -2,18 +2,19 @@ project(testkit VERSION 1.0.0 LANGUAGES CXX)
 
 file(GLOB_RECURSE SRC_FILES src/*.cc src/*.cpp)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
+add_definitions(-D_DISABLE_VECTOR_ANNOTATION -D_DISABLE_STRING_ANNOTATION)
 
 if(NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "(arm|aarch64)")
 
   if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(${PROJECT_NAME}
-    INTERFACE
+    PRIVATE
     $<$<CONFIG:Debug>: -Wall -fsanitize=address>
     $<$<CONFIG:Release>: -O2>
     )
   else()
     target_compile_options(${PROJECT_NAME}
-    INTERFACE
+    PRIVATE
     $<$<CONFIG:Debug>: -Wall -Wextra -Wpedantic -fsanitize=address -fno-omit-frame-pointer>
     $<$<CONFIG:Release>: -O3>
     )

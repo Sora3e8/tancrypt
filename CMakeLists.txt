@@ -4,8 +4,6 @@ project(tancrypt VERSION 1.0.0 LANGUAGES CXX)
 
 option(DO_TEST "Toggle for unit tests [ON by default]" ON)
 
-add_definitions(-D_DISABLE_VECTOR_ANNOTATION -D_DISABLE_STRING_ANNOTATION)
-
 include(GNUInstallDirs)
 file(GLOB_RECURSE SRC_FILES src/*.cc src/*.cpp)
 
@@ -18,6 +16,10 @@ if(NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "(arm|aarch64)")
     INTERFACE
     $<$<CONFIG:Debug>: -Wall -fsanitize=address>
     $<$<CONFIG:Release>: -O2>
+    )
+    target_compile_definitions(${PROJECT_NAME}
+    INTERFACE
+    $<$<CONFIG:Debug>:_DISABLE_VECTOR_ANNOTATION _DISABLE_STRING_ANNOTATION _DISABLE_OPTIONAL_ANNOTATION>
     )
   else()
     target_compile_options(${PROJECT_NAME}

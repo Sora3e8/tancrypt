@@ -22,4 +22,4 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DDO_TEST=ON .. && cmake --build .
+          cmake -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DDO_TEST=ON .. && cmake --build . --config ${{ env.BUILD_TYPE }}
