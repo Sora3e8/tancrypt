@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  linux-build:
+    uses: ./.github/workflows/linux-build.yml
+  windows-build:
+    needs: [linux-build]
+    uses: ./.github/workflows/windows-build.yml
+  release-build:
+    needs: [linux-build,windows-build]
+    runs-on: ubuntu-latest
+    steps:
+      - run: true

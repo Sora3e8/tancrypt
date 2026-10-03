@@ -1,0 +1,25 @@
+name: Windows build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  BUILD_TYPE: Release
+  cpp_compiler: cl
+
+jobs:
+  build:
+    runs-on: [windows-latest]
+    steps:
+      - name: Clone branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Install dependencies
+        run: |
+          choco install openssl
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DDO_TEST=ON .. && cmake --build .

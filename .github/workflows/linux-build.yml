@@ -2,6 +2,7 @@ name: Linux build
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 env:
   BUILD_TYPE: Release
@@ -12,7 +13,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        c_compiler: [gcc,clang]
         cpp_compiler: [gcc,clang]
     steps:
       - name: Clone branch
