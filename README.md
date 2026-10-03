@@ -1,6 +1,10 @@
 # Tancrypt
-- Simple cryptographic C++ library based on OpenSSL for C++11
-- Wraps around the EVP C api to allow easy keypair generation with simplfied API
+[![Build](https://github.com/Sora3e8/tancrypt/actions/workflows/release-build.yml/badge.svg)](https://github.com/Sora3e8/tancrypt/actions/workflows/release-build.yml)  
+Simple cryptographic C++ wrapper library.  
+Wraps around the OpenSSL EVP C api to allow easy keypair generation with simplfied API.  
+Provides basic cryptographic operations and comes with custom managed data buffer.
+
+Documentation: https://sora3e8.github.io/tancrypt
 
 
 Features
@@ -10,11 +14,6 @@ Features
 - AES key container
 - AES encrypt, decrypt
 - Custom data buffer
-
-
-Documentation
---------------------------------------------------------------------------
-https://sora3e8.github.io/tancrypt
 
 Dependencies
 --------------------------------------------------------------------------
