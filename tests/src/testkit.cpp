@@ -3,8 +3,11 @@
 #include "tancrypt/aes.hpp"
 #include "tancrypt/hash.hpp"
 #include "tancrypt/rsa.hpp"
+#include <cstddef>
 #include <functional>
 #include <iostream>
+#include <map>
+#include <utility>
 
 int pkicInit(char*[], int)
 {
@@ -69,6 +72,29 @@ int getPubDER(char*[], int)
   key_factory.generate_keypair(2048);
   dutils::dbuffer pub_der = key_factory.getPubDER();
   std::cout << dutils::hexStr(pub_der) << std::endl;
+
+  return 0;
+}
+
+int pkicMove(char*[], int)
+{
+  using pkic = tancrypt::RSA::pkic;
+  const size_t key_count = 10;
+  pkic* keys = new pkic[key_count];
+  for (size_t i = 0; i < key_count / 2; i++)
+  {
+    keys[i].generate_keypair(2048);
+  }
+  size_t target = 3;
+  bool do_swap = false;
+
+  for (size_t i = 0; i < key_count - 1; i++)
+  {
+    if (target == 3) do_swap = true;
+    if (do_swap) std::swap(keys[i], keys[i + 1]);
+  }
+
+  delete[] keys;
 
   return 0;
 }
@@ -485,6 +511,7 @@ std::map<std::string, std::function<int(char* argv[], int argc)>> handler = {
   { "--pairGen", &keypairGen },
   { "--pairRegen", &keypairRegen },
   { "--pairMultigen", &keypairMultigen },
+  { "--pkicMove", &pkicMove },
   { "--getPrivDER", &getPrivDER },
   { "--getPubDER", &getPubDER },
   { "--loadPrivDER", &loadPrivDER },
