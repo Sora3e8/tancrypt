@@ -15,7 +15,14 @@ namespace tancrypt
 {
   namespace RSA
   {
-    pkic::pkic() { }
+    pkic::pkic()
+    {
+      if (this->key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        key_container = nullptr;
+      }
+    }
 
     pkic::~pkic()
     {
@@ -28,16 +35,25 @@ namespace tancrypt
 
     pkic::pkic(pkic&& other) noexcept
     {
-      if (this->key_container != nullptr) EVP_PKEY_free(key_container);
+      if (this->key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        this->key_container = nullptr;
+      }
+
       this->key_container = other.key_container;
       other.key_container = nullptr;
     }
 
     pkic& pkic::operator=(pkic&& other) noexcept
     {
+      if (this->key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        this->key_container = nullptr;
+      }
       if (this != &other)
       {
-        if (this->key_container != nullptr) EVP_PKEY_free(key_container);
         this->key_container = other.key_container;
         other.key_container = nullptr;
       }
@@ -62,6 +78,12 @@ namespace tancrypt
 
     void pkic::loadPrivDER(unsigned char* DER, size_t size)
     {
+      if (key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        key_container = nullptr;
+      }
+
       const unsigned char* content = DER;
       d2i_PrivateKey(EVP_PKEY_RSA, &key_container, &content, size);
 
@@ -74,6 +96,12 @@ namespace tancrypt
 
     void pkic::loadPrivDER(dutils::dbuffer& DER)
     {
+      if (key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        key_container = nullptr;
+      }
+
       const unsigned char* content = DER.data();
       d2i_PrivateKey(EVP_PKEY_RSA, &key_container, &content, DER.size());
 
@@ -86,6 +114,12 @@ namespace tancrypt
 
     void pkic::loadPubDER(unsigned char* DER, size_t size)
     {
+      if (key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        key_container = nullptr;
+      }
+
       const unsigned char* content = DER;
       d2i_PublicKey(EVP_PKEY_RSA, &key_container, &content, size);
 
@@ -98,6 +132,12 @@ namespace tancrypt
 
     void pkic::loadPubDER(dutils::dbuffer& DER)
     {
+      if (key_container != nullptr)
+      {
+        EVP_PKEY_free(key_container);
+        key_container = nullptr;
+      }
+
       const unsigned char* content = DER.data();
       d2i_PublicKey(EVP_PKEY_RSA, &key_container, &content, DER.size());
 
