@@ -1,6 +1,7 @@
 #ifndef TANCRYPT_AES_HPP
 #define TANCRYPT_AES_HPP
 
+#include "aestypes.hpp"
 #include "dutils.hpp"
 #include "keyc.hpp"
 

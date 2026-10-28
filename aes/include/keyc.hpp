@@ -1,40 +1,14 @@
 #ifndef TANCRYPT_AES_KEYC
 #define TANCRYPT_AES_KEYC
 
+#include "aestypes.hpp"
 #include "dutils.hpp"
 #include "hashtypes.hpp"
-#include <map>
-#include <openssl/evp.h>
-
-struct evp_cipher_st;
 
 namespace tancrypt
 {
   namespace AES
   {
-    enum class Type : int
-    {
-      CBC128 = 0,
-      GCM128 = 1,
-      CBC192 = 2,
-      GCM192 = 3,
-      CBC256 = 4,
-      GCM256 = 5
-    };
-
-    inline const std::map<AES::Type, const char*>& _aesTypeMap()
-    {
-      static const std::map<AES::Type, const char*> m = {
-        { Type::CBC128, "AES-128-CBC" },
-        { Type::GCM128, "AES-128-GCM" },
-        { Type::CBC192, "AES-192-CBC" },
-        { Type::GCM192, "AES-192-GCM" },
-        { Type::CBC256, "AES-256-CBC" },
-        { Type::GCM256, "AES-256-GCM" }
-      };
-
-      return m;
-    }
 
     size_t RefKeylen(AES::Type type);
 
@@ -63,7 +37,7 @@ namespace tancrypt
         void setKey(const char* key, size_t size);
         void setKey(const unsigned char* key, size_t size);
         const dutils::dbuffer& getKey();
-        evp_cipher_st* cipher = nullptr;
+        const EVP_CIPHER* cipher = nullptr;
         dutils::dbuffer _key;
 
       private:

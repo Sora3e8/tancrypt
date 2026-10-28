@@ -270,11 +270,7 @@ namespace tancrypt
 
   dutils::dbuffer AES::getNonce(const dutils::dbuffer& buffer, AES::Type type)
   {
-    if (AES::_aesTypeMap().count(type) == 0) throw std::runtime_error("[tancrypt::AES::getNonce] Invalid AES cipher type.");
-
-    evp_cipher_st* ciph = EVP_CIPHER_fetch(NULL, AES::_aesTypeMap().at(type), NULL);
-    size_t len = EVP_CIPHER_iv_length(ciph);
-    EVP_CIPHER_free(ciph);
+    size_t len = EVP_CIPHER_iv_length(_aestype::cphs[(int)type]);
 
     switch ((len == 0) | (len < 0) * 2)
     {

@@ -8,17 +8,18 @@ namespace tancrypt
 {
   namespace AES
   {
-    keyc::keyc() { }
+    keyc::keyc()
+    {
+    }
 
     keyc::~keyc()
     {
-      EVP_CIPHER_free(cipher);
     }
 
     size_t RefKeylen(AES::Type type)
     {
-      const EVP_CIPHER* tmp = EVP_get_cipherbyname(_aesTypeMap().at(type));
-      int res = EVP_CIPHER_key_length(tmp);
+
+      int res = EVP_CIPHER_key_length(_aestype::cphs[(int)type]);
       return res < 0 ? 0 : res;
     }
 
@@ -104,8 +105,7 @@ namespace tancrypt
 
     void keyc::setType(AES::Type type)
     {
-      if (cipher != nullptr) EVP_CIPHER_free(cipher);
-      cipher = EVP_CIPHER_fetch(NULL, _aesTypeMap().at(type), NULL);
+      cipher = _aestype::cphs[(int)type];
     }
 
     void keyc::setHashEnabled(bool val) { do_hash = val; }
