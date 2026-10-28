@@ -15,13 +15,21 @@ namespace dutils
   class dbuffer
   {
     public:
-      dbuffer() { };
-      ~dbuffer() { delete[] _data; };
+      dbuffer()
+      {
+        if (this->_data != nullptr) delete[] _data;
+      };
+      ~dbuffer()
+      {
+        if (_data != nullptr) delete[] _data;
+      };
+
       size_t _size = 0;
       unsigned char* _data = nullptr;
 
       dbuffer(const dbuffer& other) noexcept
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = other.size();
         _data = new unsigned char[other.size()];
         memcpy(this->_data, other._data, other.size());
@@ -51,7 +59,7 @@ namespace dutils
       {
         if (this != &other)
         {
-          delete[] _data;
+          if (this->_data != nullptr) delete[] _data;
           _data = other._data;
           _size = other._size;
           other._data = nullptr;
@@ -61,12 +69,14 @@ namespace dutils
       }
       dbuffer(size_t size)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = size;
         this->_data = new unsigned char[_size];
         memset(this->_data, 0, _size);
       }
       dbuffer(const char* src, size_t size)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = size;
         this->_data = new unsigned char[_size];
         memcpy(this->_data, src, _size);
@@ -74,6 +84,7 @@ namespace dutils
 
       dbuffer(const unsigned char* src, size_t size)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = size;
         this->_data = new unsigned char[_size];
         memcpy(this->_data, src, _size);
@@ -81,6 +92,7 @@ namespace dutils
 
       dbuffer(std::string string)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = string.size() + 1;
         this->_data = new unsigned char[_size];
         memcpy(this->_data, string.data(), _size);
@@ -88,6 +100,7 @@ namespace dutils
 
       dbuffer(std::string& string)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = string.size() + 1;
         this->_data = new unsigned char[_size];
         memcpy(this->_data, string.data(), _size);
@@ -113,6 +126,7 @@ namespace dutils
 
       dbuffer(std::vector<unsigned char> vector)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = vector.size();
         this->_data = new unsigned char[_size];
         memcpy(this->_data, vector.data(), _size);
@@ -120,6 +134,7 @@ namespace dutils
 
       dbuffer(std::initializer_list<unsigned char> list)
       {
+        if (this->_data != nullptr) delete[] _data;
         this->_size = list.size();
         this->_data = new unsigned char[_size];
         memcpy(this->_data, list.begin(), _size);
@@ -169,7 +184,7 @@ namespace dutils
       }
   };
 
-  static std::string hexStr(const dbuffer& data)
+  inline std::string hexStr(const dbuffer& data)
   {
 
     size_t counter = 0;
@@ -183,7 +198,7 @@ namespace dutils
     return hex_str.str();
   }
 
-  static std::string hexStr(const char* data, size_t length)
+  inline std::string hexStr(const char* data, size_t length)
   {
 
     std::stringstream hex_str;
@@ -195,7 +210,7 @@ namespace dutils
     return hex_str.str();
   }
 
-  static std::string hexStr(const unsigned char* data, size_t length)
+  inline std::string hexStr(const unsigned char* data, size_t length)
   {
 
     std::stringstream hex_str;
