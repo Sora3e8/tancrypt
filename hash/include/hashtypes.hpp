@@ -1,16 +1,25 @@
 #ifndef TANCRYPT_HASHTYPES_HPP
 #define TANCRYPT_HASHTYPES_HPP
-#include <map>
+
+struct evp_md_st;
+typedef evp_md_st EVP_MD;
 
 namespace tancrypt
 {
+
+  class _hashAlg
+  {
+    public:
+      _hashAlg() { }
+      const static EVP_MD* _hashmds[13];
+  };
+
   enum class hashAlg : int
   {
     MDC2 = 0,
     MD4 = 1,
     MD5 = 2,
     SHA1 = 3,
-    RSA_SHA1 = 4,
     SHA224 = 5,
     SHA256 = 6,
     SHA384 = 7,
@@ -21,27 +30,6 @@ namespace tancrypt
     BLAKE2B512 = 12,
     BLAKE2S256 = 13,
   };
-  inline const std::map<int, const char*>& _hashTypeMap()
-  {
-    static const std::map<int, const char*> m = {
-      { 0, "MDC2" },
-      { 1, "MD4" },
-      { 2, "MD5" },
-      { 3, "SHA1" },
-      { 4, "RSASHA1" },
-      { 5, "SHA224" },
-      { 6, "SHA256" },
-      { 7, "SHA384" },
-      { 8, "SHA512" },
-      { 9, "SHA512224" },
-      { 10, "SHA512256" },
-      { 11, "SM3" },
-      { 12, "BLAKE2B512" },
-      { 13, "BLAKE2S256" },
-    };
-
-    return m;
-  }
 
 }
 #endif
