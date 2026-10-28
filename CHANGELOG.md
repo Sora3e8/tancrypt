@@ -1,3 +1,28 @@
+## 2.0.0 (2026-10-28)
+
+### BREAKING CHANGE
+
+- hashAlg::RSA_SHA1 was removed as it is the same as hashAlg::SHA1, if used the enum must be replace as this one is no longer valid
+
+### Fix
+
+- **hash**: add hash algorithm availability macros
+- **pkic**: patch overgen edge cases
+- **dbuffer**: patch class re-init edgecases
+- **build**: fix missing link for asan on linux
+- **ci-cd-build**: fix propagation of windows annotation flags
+- **ci-cd-build**: change name of workflow
+- **ci-cd-build**: remove redundant c_compiler
+- **ci-cd-build**: change build type to envvar
+- **ci-cd-build**: change windows build to chocolatey
+- **ci-cd-build**: add missing deps setup windows test build
+- **ci-build**: fix sudo permission
+
+### Perf
+
+- **hash**: reduce algorithm fetching
+- **aes**: reduce cipher fetching
+
 ## 1.4.31 (2026-09-27)
 
 ### Feat
