@@ -30,6 +30,5 @@ namespace tancrypt
     BLAKE2B512 = 12,
     BLAKE2S256 = 13,
   };
-
 }
 #endif
